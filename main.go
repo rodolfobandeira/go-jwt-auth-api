@@ -51,7 +51,12 @@ func login(c *fiber.Ctx) {
 	user := c.FormValue("user")
 	pass := c.FormValue("pass")
 
-	// Throws Unauthorized error
+	// curl --location --request POST 'http://localhost:3000/login' \
+	// --form 'user="rodolfo"' \
+	// --form 'pass="bandeira"'
+
+	// Debug: log.Println(user, pass)
+
 	if user != "rodolfo" || pass != "bandeira" {
 		c.SendStatus(fiber.StatusUnauthorized)
 		return
@@ -88,5 +93,5 @@ func restricted(c *fiber.Ctx) {
 	claims := user.Claims.(jwt.MapClaims)
 	name := claims["name"].(string)
 	details := claims["details"].(string)
-	c.Send("Welcome " + name + " \n " + details)
+	c.Send("Welcome " + name + " \n" + details)
 }
