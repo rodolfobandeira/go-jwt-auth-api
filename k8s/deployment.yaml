@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-api-app
+  labels:
+    app: api-app
+spec:
+  selector:
+    matchLabels:
+      app: api-app
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: api-app
+        tier: frontend
+    spec:
+      containers:
+      - name: go-jwt-auth-api
+        image: index.docker.io/rodolfobandeira/go-jwt-auth-api:latest
+        env:
+        - name: MY_ENV_VAR
+          value: rodolfo
+        - name: MY_ENV_VAR2
+          value: bandeira
+        #imagePullPolicy: Always
+
+        # command: [ "/go/bin/main" ]
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+        ports:
+          - containerPort: 3000
+

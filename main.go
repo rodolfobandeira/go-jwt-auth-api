@@ -12,16 +12,13 @@ import (
 )
 
 var (
-	// Obviously, this is just a test example. Do not do this in production.
-	// In production, you would have the private key and public key pair generated
-	// in advance. NEVER add a private key to any GitHub repo.
+	// Dynamically creating a new private key on each bootload.
 	privateKey *rsa.PrivateKey
 )
 
 func main() {
 	app := fiber.New()
 
-	// Just as a demo, generate a new private/public key pair on each run. See note above.
 	rng := rand.Reader
 	var err error
 	privateKey, err = rsa.GenerateKey(rng, 2048)
@@ -56,22 +53,19 @@ func login(c *fiber.Ctx) {
 	// --form 'pass="bandeira"'
 
 	// Debug: log.Println(user, pass)
-
 	if user != "rodolfo" || pass != "bandeira" {
 		c.SendStatus(fiber.StatusUnauthorized)
 		return
 	}
 
-	// Create token
 	token := jwt.New(jwt.SigningMethodRS256)
 
-	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
 	claims["name"] = "Rodolfo Bandeira"
 	claims["details"] = "Any detail for the user can be added here. :)"
 	claims["admin"] = true
-	claims["exp"] = time.Now().Add(time.Minute * 2).Unix() // Valid for 2 minutes only
-	// claims["exp"] = time.Now().Add(time.Hour * 72).Unix() // 72 Hours
+	claims["exp"] = time.Now().Add(time.Minute * 2).Unix() // Token is valid for 5 minutes only
+	// claims["exp"] = time.Now().Add(time.Hour * (24 * 7)).Unix() // 7 days
 
 	// Generate encoded token and send it as response.
 	t, err := token.SignedString(privateKey)

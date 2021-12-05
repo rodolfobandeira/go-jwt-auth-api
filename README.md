@@ -18,3 +18,49 @@ si5jf3ZByrrTUtZJEfuxzZQ24UAF22EZ5DE8P7FjAjGP1NxD44LXSAqrhZkPRESjze77q-y2HvvlUYD8
 1we6bx3dvLmOpHy_aXv76bEXX1whQ5JVDIJwSHMtmjxha2G118afZxH89Fy0xI182nfvPpKxIh6Ib-H2ZT0gcXxF\
 ShimobhGoHyxkScqYUdrsqBeGI1chyEI_Qg'
 ```
+
+---
+
+
+#### Kubernetes in local enviroment:
+
+```bash
+minikube start
+
+# Starting the Golang App API pod running on port 3000
+kubectl apply -f k8s/deployment.yml
+
+# Checking pod status:
+kubectl get pods
+
+# Creating a service of the type "NodePort". NodePort will
+# make the external world able to access the cluster through this service
+# using the "minikube ip" and the specific port
+kubectl apply -f k8s/service-nodeport.yaml
+
+# Checking which port should we use:
+kubectl get services | grep NodePort
+# service-nodeport   NodePort    10.107.102.51   <none>        8080:30003/TCP   70m
+
+# Finally, accessing the pod App API passing through the NodePort service, and all this,
+# from the external world (outside the cluster access):
+
+# Get the network IP to access externally (From laptop)
+minikube service service-nodeport --url
+# http://192.168.49.2:30003
+
+curl http://192.168.49.2:30003
+
+# Scaling to 10 pods:
+kubectl scale=10 -f k8s/deployment.yml
+
+# Downgrade to 2:
+kubectl scale --replicas=2 -f k8s/deployment.yaml
+# deployment.apps/pod-api-app scaled
+
+
+kubectl get pods
+# NAME                          READY   STATUS    RESTARTS   AGE
+# pod-api-app-598c8fc75-2gvh8   1/1     Running   0          4m46s
+# pod-api-app-598c8fc75-5ct8z   1/1     Running   0          4m5s
+```
