@@ -1,6 +1,6 @@
 # go-jwt-auth-api
 
-A simple API using Go Fiber to provide JWT authentication
+A simple API using Go Fiber to provide JWT authentication. Also a simple Kubernetes config to spin up all that
 
 ```
 curl -X POST http://localhost/login \
