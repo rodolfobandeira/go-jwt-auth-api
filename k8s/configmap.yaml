@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  RESTRICTED_AREA_USER: rodolfo
+  RESTRICTED_AREA_PASS: bandeira
+  MARIADB_USER: user
+  MARIADB_PASSWORD: user_password
+  MARIADB_ROOT_PASSWORD: root_password
+  MARIADB_DATABASE: my_db
+

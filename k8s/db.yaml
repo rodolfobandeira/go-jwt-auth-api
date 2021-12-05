@@ -10,12 +10,14 @@ spec:
       image: mariadb:latest
       ports:
         - containerPort: 3306
-      env:
-        - name: "MARIADB_USER"
-          value: "user"
-        - name: "MARIADB_PASSWORD"
-          value: "user_password"
-        - name: "MARIADB_ROOT_PASSWORD"
-          value: "root_password"
-        - name: "MARIADB_DATABASE"
-          value: "my_db"
+          #env:
+          #  - name: "CUSTOM_CONFIG"
+          #    value: "dont use configmap"
+          #  - name: "MARIADB_USER"
+          #    valueFrom:
+          #      configMapKeyRef:
+          #        name: configmap
+          #        key: MARIADB_USER
+      envFrom:
+        - configMapRef:
+            name: configmap
