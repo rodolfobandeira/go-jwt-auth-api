@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  containers:
+    - name: db-mariadb-container
+      image: mariadb:latest
+      ports:
+        - containerPort: 3306
+      env:
+        - name: "MARIADB_USER"
+          value: "user"
+        - name: "MARIADB_PASSWORD"
+          value: "user_password"
+        - name: "MARIADB_ROOT_PASSWORD"
+          value: "root_password"
+        - name: "MARIADB_DATABASE"
+          value: "my_db"

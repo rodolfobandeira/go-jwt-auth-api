@@ -63,4 +63,19 @@ kubectl get pods
 # NAME                          READY   STATUS    RESTARTS   AGE
 # pod-api-app-598c8fc75-2gvh8   1/1     Running   0          4m46s
 # pod-api-app-598c8fc75-5ct8z   1/1     Running   0          4m5s
+
+
+# Running a MySQL (MariaDB) server:
+kubectl apply -f k8s/db.yaml
+kubectl exec -it db -- bash
+mysql -u user -p
+# user_password
+# MariaDB [(none)]> show databases;
+# +--------------------+
+# | Database           |
+# +--------------------+
+# | information_schema |
+# | my_db              |
+# +--------------------+
+# 2 rows in set (0.000 sec)
 ```
